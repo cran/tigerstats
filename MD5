@@ -1,4 +1,4 @@
-9d4d8775edf97c8156f67e47ff531d80 *DESCRIPTION
+baa0c1405a34033e1de342fba29dd74c *DESCRIPTION
 42dac069f92ecd326cae19068d841cac *NAMESPACE
 596abc42af0e0751b12bb7b7a216a450 *R/BinomNorm.R
 f038bdf9ef6fd5a7f9a4768131c4264f *R/BinomSkew.R
@@ -138,6 +138,13 @@ ef1a4fc3b7f4a94e630e182c18d2ac32 *data/temperature.rda
 b6bb91bcb3e1da9df0437e54ad0560cd *data/tornado.rda
 b5d8d8a6b605d772ef46b71ad6b15095 *data/ucdavis1.rda
 bcf5b9a734743ec5ff0e2f30527d5931 *data/youthrisk03.rda
+7cdfabacdf40ba6aad7bdd0ed32407bb *inst/FindRegLine/server.R
+f0c8907c8608dea5af18247455fc04e6 *inst/FindRegLine/ui.R
+dcac5b65d0d8f44cb34eef2e8b4fcd0c *inst/NEWS.Rd
+5abcc4701e4c1d4ed9d01ef3df516ce6 *inst/ShallowReg/server.R
+897c7f193b6e51e9f8332642687aeaf6 *inst/ShallowReg/ui.R
+4e1c5afc9091d567dcf857189cbf269d *inst/SlowGoodness/server.R
+cdd75886620a973f70b44ae2f2692e9e *inst/SlowGoodness/ui.R
 bb8be48478cf1b5274abb48f9ed76e7f *man/BinomNorm.Rd
 d827e6c2b6e0b1d45619f0bd0ab935ba *man/BinomSkew.Rd
 cb29750db30a6e226c48a23d5b295308 *man/CIMean.Rd
@@ -229,7 +236,7 @@ abe7d34a5ee233a02bc96a44bbbef10a *man/saltmarsh.Rd
 333aeb46a63ccaa8a27c230b17f252d1 *man/temperature.Rd
 1abf46bdf366da8768f9a3654232a02c *man/theme.rpres.Rd
 a898906303a49fe3f99e727afc9191fd *man/themerpres.Rd
-a4a604d901fd0789a0c0d05aa1328ff7 *man/tigerstats-package.Rd
+184bdf79de6477ad2b7ccd4ab048dd3d *man/tigerstats-package.Rd
 d7dc01eeea9a3c1f8ac96e3256f2f183 *man/tornado.Rd
 32c4ab67aedb7e1a0c7a16292d6def7b *man/ttestGC.Rd
 238616ffe966c689107f10953e33e51b *man/ucdavis1.Rd
