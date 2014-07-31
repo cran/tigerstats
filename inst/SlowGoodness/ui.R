@@ -8,59 +8,69 @@ shinyUI(pageWithSidebar(
   
   # Sidebar
   sidebarPanel(
-    textInput("nulls","Enter Null Probabilities (separated by commas)",
+    conditionalPanel(
+      condition="input.resample == 0 || output.totalPrev == output.total",
+      textInput("nulls","Enter Null Probabilities (separated by commas)",
               "0.17,0.17,0.17,0.17,0.17,0.17"),
     
-    helpText("Enter the probabilities as decimal numbers.",
+      helpText("Enter the probabilities as decimal numbers.",
               "If they do not sum to 1, then the",
              "application will re-scale them for you."),
-    br(),
+      br(),
 
-    textInput("obs","Enter Observed Counts (separated by commas)",
+      textInput("obs","Enter Observed Counts (separated by commas)",
               "8,18,11,7,9,7"),
-    br(),
+      br(),
     
-    textInput("names","Enter Level Names (separated by commas)",
+      textInput("names","Enter Level Names (separated by commas)",
               "One,Two,Three,Four,Five,Six"),
+      br()
+    ),
+    helpText("One simulation means the machine will produce one table of",
+             "counts, using the Null probabilities.  How many simulations do",
+             "you want the machine to perform at once?  (Limit is 10000.)"),
+    numericInput("sims","Number of Simulations at Once",1,min=0,step=1),
     br(),
-    helpText("Before you begin resampling, make sure that the",
-             "number of Null Probabilities that you entered matches",
-             "the number of observed counts!"),
-    actionButton("resample","Resample Now"),
-    actionButton("reset","Start Over")
+    actionButton("resample","Simulate Now"),
+    conditionalPanel(
+      condition="(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
+      actionButton("reset","Start Over")
+    )
     ),
 
   
   # Here comes the main panel
   
+  # Here comes the main panel
+  
   mainPanel(
     
+    conditionalPanel(
+      condition="input.resample == 0 || output.totalPrev == output.total",
+      plotOutput("barGraphInitial"),
+      p(textOutput("remarksInitial")),
+      tableOutput("obsTable")
+    ),
     
     conditionalPanel(
-      condition="output.resampcount == 0",
-      plotOutput("bargraphinit"),
-      h4(textOutput("remark0")),
-      tableOutput("obstable")
-      ),
-    
-    conditionalPanel(
-      condition="output.resampcount == 1",
-      plotOutput("bargraph1"),
-      h4(textOutput("remark1"))),
-    
-    conditionalPanel(
-      condition="output.resampcount > 1",
-    tabsetPanel(selected="Observed Results",
-      tabPanel("Observed Results",
-                 plotOutput("bargraph"),
-               h4(textOutput("remark2")),
-               tableOutput("resampstats")),
-      tabPanel("Density Plot (Resamples)",
-               plotOutput("constructden"),
-               tableOutput("tableden"),
-               tableOutput("summaryden")),
-      id="MyPanel"
-    )
+      condition="(input.resample > 0 && input.reset == 0) || output.total > output.totalPrev",
+      tabsetPanel(selected="Latest Simulation",
+                  tabPanel("Latest Simulation",
+                           plotOutput("barGraphLatest"),
+                           p(textOutput("remarksLatest1")),
+                           tableOutput("summary1"),
+                           p(textOutput("remarksProbBar"))),
+                  tabPanel("Density Plot of Simulations",
+                           plotOutput("densityplot"),
+                           p(textOutput("remarksLatest2")),
+                           tableOutput("summary2"),
+                           p(textOutput("remarksProbDensity"))),
+                  tabPanel("Probability Distribution",
+                           plotOutput("chisqCurve"),
+                           p(textOutput("remarksProb"))
+                  ),
+                  id="MyPanel"
+      )
     )
     
     

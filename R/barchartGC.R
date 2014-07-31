@@ -4,9 +4,11 @@
 #' using formula-data syntax similar to that of \code{\link{xtabs}}.  There are very few options.
 #' 
 #' @rdname barchartGC
-#' @usage barchartGC(x,data=NULL,type="frequency",main=NULL)
-#' @param x Either a formula or a table.  If formula, it must be of the form ~var or ~var1+var2.
-#' @param data Usually a data frame that supplies the variables in \code{x}.
+#' @usage barchartGC(x,data=parent.frame(),type="frequency",main=NULL)
+#' @param x Either a formula or an object that can be coerced to a table.  If formula, it must be 
+#' of the form ~var or ~var1+var2.
+#' @param data Usually a data frame that supplies the variables in \code{x}.  Variables not in the data
+#' argument are searched for in the parent environment.
 #' @param type Possible values are "frequency" and "percent".
 #' @param main An optional title
 #' @return A trellis object describing the barchart.
@@ -16,8 +18,10 @@
 #' #barchart of counts for one factor variable:
 #' barchartGC(~sex,data=m111survey)
 #' 
-#' #barchart with percentages:
-#' barchartGC(~sex,data=m111survey,main="Distribution of Sex")
+#' #barchart with percentages and title:
+#' barchartGC(~sex,data=m111survey,
+#'    type="percent",
+#'    main="Distribution of Sex")
 #' 
 #' #barchart of counts, to study the relationship between
 #' #two factor variables:
@@ -29,8 +33,12 @@
 #' #From tabulated data:
 #' sexseat <- xtabs(~sex+seat,data=m111survey)
 #' barchartGC(sexseat,type="percent",main="Sex and Seating Preference")
+#' 
+#' #from tabulated data:
+#' dieTosses <- c(one=8,two=18,three=11,four=7,five=9,six=7)
+#' barchartGC(dieTosses,main="60 Rolls of a Die")
 barchartGC <-
-  function(x,data=NULL,
+  function(x,data=parent.frame(),
            type="frequency",main=NULL)  { 
     
     
@@ -41,7 +49,7 @@ barchartGC <-
       
       if (length(pullout) == 1) {  #one variable
         varname <- pullout[1]
-        variable <- data[,varname]
+        variable <- simpleFind(varName=varname,data=data)
         tab <- xtabs(~variable)
         if (type=="frequency") {
           return(barchart(tab,horizontal=F,main=main))
@@ -55,9 +63,9 @@ barchartGC <-
       if (length(pullout)==3) { #two variables
         expname <- pullout[2]
         respname <- pullout[3]
-        explanatory <- data[,expname]
-        response <- data[,respname]
-        tab <- with(data,table(explanatory,response))
+        explanatory <- simpleFind(varName=expname,data=data)
+        response <- simpleFind(varName=respname,data=data)
+        tab <- table(explanatory,response)
         if (type=="frequency") {
           return(barchart(tab,stack=F,horizontal=F,auto.key=T,main=main))
         }
@@ -72,10 +80,10 @@ barchartGC <-
       
     
     if (!is(x,"formula")) {  #we have tabular data
-      
+      x <- as.table(x)
       if (length(dim(x))==1) {#one variable
         if (type=="frequency") {
-          return(barchart(x,horizontal=F))
+          return(barchart(x,horizontal=F,main=main))
         }
         if (type=="percent") {
           perctab <- 100*x/sum(x)
