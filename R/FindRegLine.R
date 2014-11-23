@@ -18,6 +18,12 @@
 #' }
 FindRegLine <-
 function()  {
+  
+  if (!("manipulate"  %in% .packages())) {
+    return(cat(paste0("You must be on R Studio with package manipulate attached\n",
+                      "in order to run this function.")))
+  }
+  
   lowa <- -5
   higha <- 5
   lowb <- -2
@@ -71,7 +77,6 @@ function()  {
   score <- turns+close
   #Initial score will alwauys be 100, because you
   #start at line with slope 0, intercept = mean(y)
-  require(manipulate)
   
   manipulate(
     a=slider(lowa.slider,higha.slider,step=0.01,initial=y.mean,label="Intercept"),

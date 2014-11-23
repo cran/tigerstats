@@ -1,8 +1,47 @@
 \name{NEWS}
 \title{NEWS file for the tigerstats package}
 
+\section{Changes in version 0.2}{
+\itemize{
+\item Addition of vignette "Teaching with Tigerstats."
+}
+}
+
+\section{Changes in version 0.1.9}{
+\itemize{
+
+\item Addition of qnormGC().
+
+\item Addition of check argument to lmGC().  Diagnostics are no longer done with the diag argument; instead one calls the plot() function.
+
+\item Addition of polyfitGC().
+
+\item Addition of henderson data frame; the seals data frame has been re-named to sealsO2 to avoid name conflict with seals in the ggplot2 package.
+
+\item Addition of function helpGC(), a convenience function to view package vignettes in the R Studio
+Viewer pane.
+
+}
+}
+
+\section{Changes in version 0.1.7}{
+\itemize{
+
+\item Addition of package vignettes:  tutorials on all major functions, a summary of descriptive functions and a summary of inferential functions.
+
+\item chisqtestGC() now provides a graph of resampled chi-square statistics when simulate.p.value is set to TRUE.
+
+\item barchartGC() accepts more arguments, and adds a FLat" argument."
+
+}
+}
+
 \section{Changes in version 0.1.6}{
 \itemize{
+
+\item Addition of Shiny app \code{SamplingMethods} and manipulate app \code{SimpleRandom2}.
+
+\item Instructional function expCounts() computes expected cell counts from a two-way table of observed counts.
 
 \item Major statistical analysis functions that accept formula data input are now more responsive to the
 environment in which they are called.  If variables in the formula are not present in the data frame

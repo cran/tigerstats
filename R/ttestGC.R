@@ -3,21 +3,22 @@
 #' @description t-tests and confidence intervals for one and two samples.
 #' 
 #' @rdname ttestGC
-#' @usage ttestGC(x=NULL,mean=numeric(),sd=numeric(),n=numeric(),
-#'  mu=NULL,data=parent.frame(),alternative="two.sided",var.equal=FALSE,
+#' @usage ttestGC(x=NULL,data=parent.frame(),mean=numeric(),sd=numeric(),n=numeric(),
+#'  mu=NULL,alternative=c("two.sided","less","greater"),var.equal=FALSE,
 #'  conf.level=0.95,graph=FALSE,first=NULL,verbose=TRUE)
 #' @param x If not NULL, then must be a formula.  If a formula, then data must be a dataframe.
 #' For one sample t-procedures, x is of the form ~var.  For two-sample procedures,
 #' x is of the form resp~exp, where exp is factor with two values.  If x is of form ~var1-var2,
-#' then matched pairs procedures are performed .
+#' then matched pairs procedures are performed.
+#' @param data A data frame containing variables in formula x.  If some variables are not in data,
+#' then they are searched for in the parent environment.
 #' @param mean When not NULL, contains sample mean(s).  Length 1 for one sample t-procedures,
 #' Length 2 for two-sample procedures.
 #' @param sd When not NULL, contains sample standard deviation(s).
 #' @param n When not NULL, contains sample size(s).
 #' @param mu Contains the null value for the parameter of interest.  If not set, no test is performed.
-#' @param data A data frame containing variables in formula x.  If some variables are not in data,
-#' then they are searched for in the parent environment.
-#' @param alternative "two.sided" requests computation of a two-sided P-value;  other possible values are "less" and "greater".
+#' @param alternative "two.sided" requests computation of a two-sided P-value;  other possible values 
+#' are "less" and "greater".
 #' @param var.equal When FALSE, use Welch's approximation to the degrees of freedom.
 #' @param conf.level Number between 0 and 1 indicating the confidence-level of the interval supplied.
 #' @param graph If TRUE, plot graph of P-value.
@@ -54,10 +55,11 @@
 #' #Summary data, two samples:
 #' ttestGC(mean=c(50,55),sd=c(3,4),n=c(25,40),mu=0)
 ttestGC <-
-  function(x=NULL,mean=numeric(),sd=numeric(),n=numeric(),
-           mu=NULL,data=parent.frame(),alternative="two.sided", var.equal=FALSE,
+  function(x=NULL,data=parent.frame(),mean=numeric(),sd=numeric(),n=numeric(),
+           mu=NULL,alternative=c("two.sided","less","greater"), var.equal=FALSE,
            conf.level=0.95,graph=FALSE,first=NULL,verbose=TRUE)  {
     
+    alternative <- match.arg(alternative)
     stat <- FALSE
     p.value <- FALSE  #These will get numerical values if a test is performed
     
@@ -396,3 +398,154 @@ ttestGC <-
     return(res)
     
     } #end ttestGC
+
+
+#' @title Print Function for ttestGC
+
+#' @description Utility print function
+#' @keywords internal
+#' 
+#' @rdname print.GCttest
+#' @method print GCttest
+#' @usage 
+#' \S3method{print}{GCttest}(x,...)
+#' @param x An object of class GCttest.
+#' @param \ldots ignored
+#' @return Output to the console.
+#' @author Homer White \email{hwhite0@@georgetowncollege.edu}
+#' @export
+print.GCttest <- function(x,...)  {
+  GCttest <- x
+  subm <- GCttest$subm
+  mu <- GCttest$mu
+  verbose <- GCttest$verbose
+  
+  odigits <- getOption("digits")
+  options(digits=4)
+  
+  if (subm %in% c("f2e","f2u","s2e","s2u")) {
+    cat("\n\nInferential Procedures for the Difference of Two Means mu1-mu2:\n")
+    if (subm %in% c("f2u","s2u")) cat("\t(Welch's Approximation Used for Degrees of Freedom)\n")
+  }
+  
+  if (subm %in% c("s1","f1")) {
+    cat("\n\nInferential Procedures for One Mean mu:\n") 
+  }
+  
+  if (subm %in% c("fm")) {
+    cat("\n\nInferential Procedures for the Difference of Means mu-d:\n") 
+  }
+  
+  if (subm %in% c("f2e","f2u")) {
+    cat("\t",GCttest$varnames[2],"grouped by",GCttest$varnames[1],"\n")
+  }
+  
+  if (subm %in% c("fm")) {
+    cat("\t",GCttest$varnames[1],"minus",GCttest$varnames[2],"\n")
+  }
+  
+  if (subm %in% c("s2e","s2u")) cat("\tResults from summary data.\n")
+  if (verbose) {    
+    cat("\n\n")
+    cat("Descriptive Results:\n\n")
+    
+    tab <- GCttest$SummTab
+    print(tab,row.names=FALSE)
+    
+    cat("\n")
+    cat("\n")
+    
+    cat("Inferential Results:\n\n")
+  }   
+  if (subm %in% c("s2e","s2u","f2e","f2u")) {
+    if (verbose) {
+      cat("Estimate of mu1-mu2:\t",GCttest$estimate,"\n")
+      cat("SE(x1.bar - x2.bar):\t",GCttest$se,"\n\n")
+    }
+    cat(GCttest$conf.level*100,"% Confidence Interval for mu1-mu2:\n\n",sep="")
+    int <- GCttest$interval
+    cat(sprintf("%-10s%-20s%-20s","","lower.bound","upper.bound"),"\n")
+    cat(sprintf("%-10s%-20f%-20f","",int[1],int[2]),"\n\n")
+    
+    if (GCttest$p.value) {
+      if (verbose) {
+        cat("Test of Significance:\n\n")
+        symbol <- switch(GCttest$alternative,
+                         less="<",
+                         greater=">",
+                         two.sided="!=")
+        cat("\tH_0:  mu1-mu2 =",GCttest$mu,"\n")
+        cat("\tH_a:  mu1-mu2",symbol,mu,"\n\n")
+      }
+      cat("\tTest Statistic:\t\tt =",GCttest$statistic,"\n")
+      cat("\tDegrees of Freedom:\t ",GCttest$df,"\n")
+      cat("\tP-value:\t\tP =",GCttest$p.value,"\n")
+    }
+  }
+  
+  if (subm %in% c("s1","f1")) {
+    if (verbose) {
+      cat("Estimate of mu:\t",GCttest$estimate,"\n")
+      cat("SE(x.bar):\t",GCttest$se,"\n\n")
+    }
+    cat(GCttest$conf.level*100,"% Confidence Interval for mu:\n\n",sep="")
+    int <- GCttest$interval
+    cat(sprintf("%-10s%-20s%-20s","","lower.bound","upper.bound"),"\n")
+    cat(sprintf("%-10s%-20f%-20f","",int[1],int[2]),"\n\n")
+    if (GCttest$p.value) {
+      if (verbose) {
+        cat("Test of Significance:\n\n")
+        symbol <- switch(GCttest$alternative,
+                         less="<",
+                         greater=">",
+                         two.sided="!=")
+        cat("\tH_0:  mu =",GCttest$mu,"\n")
+        cat("\tH_a:  mu",symbol,mu,"\n\n")
+      }
+      cat("\tTest Statistic:\t\tt =",GCttest$statistic,"\n")
+      cat("\tDegrees of Freedom:\t ",GCttest$df,"\n")
+      cat("\tP-value:\t\tP =",GCttest$p.value,"\n")
+    }
+  }
+  
+  if (subm %in% c("fm")) { 
+    if (verbose)  {
+      cat("Estimate of mu-d:\t",GCttest$estimate,"\n")
+      cat("SE(d.bar):\t",GCttest$se,"\n\n")
+    }
+    cat(GCttest$conf.level*100,"% Confidence Interval for mu-d:\n\n",sep="")
+    int <- GCttest$interval
+    cat(sprintf("%-10s%-20s%-20s","","lower.bound","upper.bound"),"\n")
+    cat(sprintf("%-10s%-20f%-20f","",int[1],int[2]),"\n\n")
+    if (GCttest$p.value) {
+      if (verbose) {
+        cat("Test of Significance:\n\n")
+        symbol <- switch(GCttest$alternative,
+                         less="<",
+                         greater=">",
+                         two.sided="!=")
+        cat("\tH_0:  mu-d =",GCttest$mu,"\n")
+        cat("\tH_a:  mu-d",symbol,mu,"\n\n")
+      }
+      cat("\tTest Statistic:\t\tt =",GCttest$statistic,"\n")
+      cat("\tDegrees of Freedom:\t ",GCttest$df,"\n")
+      cat("\tP-value:\t\tP =",GCttest$p.value,"\n")
+    }
+  }
+  
+  Grapher <- function(stat,alt,df) {
+    rstat <- round(stat,2)
+    switch(alt,
+           less=invisible(ptGC(rstat,region="below",df=df,graph=T)),
+           greater=invisible(ptGC(rstat,region="above",df=df,graph=T)),
+           two.sided=invisible(ptGC(c(-abs(rstat),abs(rstat)),region="outside",df=df,graph=T))
+    )
+  }
+  
+  if (GCttest$graph) {
+    Grapher(stat=GCttest$statistic,alt=GCttest$alternative,df=GCttest$df)
+  }
+  
+  options(digits=odigits)
+  
+}

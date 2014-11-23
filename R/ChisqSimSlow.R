@@ -7,7 +7,7 @@
 #' console.
 #' 
 #' @rdname ChisqSimSlow
-#' @usage ChisqSimSlow(form,data,effects="random")
+#' @usage ChisqSimSlow(form,data,effects=c("random","fixed"))
 #' @param form a formula of the form ~x+y.  When using
 #' fixed effects (see below for explanation), x should be the
 #' variable that is considered the predictor variable.
@@ -25,15 +25,17 @@
 #' @author Homer White \email{hwhite0@@georgetowncollege.edu}
 #' @examples
 #' \dontrun{
-#' if (require(manipulate)) ChisqSimSlow(~weather+crowd.behavior,data=ledgejump,effects="fixed")
+#' ChisqSimSlow(~weather+crowd.behavior,data=ledgejump,effects="fixed")
 #' }
-ChisqSimSlow <- function(form,data,effects="random")  {
+ChisqSimSlow <- function(form,data,effects=c("random","fixed"))  {
   
   #form is of the form ~var1+var2, both factors
   #best if var1 is explanatory, var2 is response
   #data is the data frame containing these variables
   #effects== "fnixed" performs resampling subject to constraint that row total
   #are fixed to observed row totals
+  
+  effects <- match.arg(effects)
   
   #Some utility functions
   rowsampler <- function(x,p)  {rmultinom(1,size=sum(x),prob=p)}  #used in slow sampling with fixed effects

@@ -20,6 +20,12 @@
 #' }
 ShallowReg <-
 function(n=900,rho=0.5)  {
+  
+  if (!("manipulate"  %in% .packages())) {
+    return(cat(paste0("You must be on R Studio with package manipulate attached\n",
+                      "in order to run this function.")))
+  }
+  
   #n is number of points in cloud
   #rho is the target correlation of cloud
   varcovar <- cbind(c(1,rho),c(rho,1))
@@ -35,12 +41,12 @@ function(n=900,rho=0.5)  {
     y.means[i] <- mean(y[x >= x.bounds[i] & x<=x.bounds[i+1]])
   }
 
-  manipulate::manipulate(
+  manipulate(
     
-    slice=manipulate::slider(1,10,step=1,initial=4,label="Slice of Cloud"),
-    showslice=manipulate::checkbox(FALSE,"Show Slice of Cloud"),
-    showlines=manipulate::checkbox(FALSE,"Show SD and Regression Lines"),
-    showmeans=manipulate::checkbox(FALSE,"Show All Means of Slices"),
+    slice=slider(1,10,step=1,initial=4,label="Slice of Cloud"),
+    showslice=checkbox(FALSE,"Show Slice of Cloud"),
+    showlines=checkbox(FALSE,"Show SD and Regression Lines"),
+    showmeans=checkbox(FALSE,"Show All Means of Slices"),
   {plot(x,y,pch=16,cex=0.4,col=rgb(0,0,1,0.7),
           xlim=c(-big,big),ylim=c(-big,big))
    
