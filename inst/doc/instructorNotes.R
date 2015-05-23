@@ -15,5 +15,5 @@ xtabs(~sex+seat,data=m111survey)
 #  helpGC(ttestGC)
 
 ## ----eval=FALSE----------------------------------------------------------
-#  shiny::runApp(system.file("CIMean",package="tigerstats"))
+#  shiny::runApp(system.file("SlowGoodness",package="tigerstats"))
 

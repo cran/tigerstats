@@ -71,9 +71,31 @@ RectShade <- function(low,high,func,...) { #Utility
 #' @keywords internal
 #' @author Homer White \email{hwhite0@@georgetowncollege.edu}
 simpleFind <- function(varName,data) {
+  
+  if (is.null(data)) {
+    return(get(varName,inherits=T))
+  }
+  
   tryCatch({get(varName,envir=as.environment(data))},
            error=function(e) {
-             get(varName,inherits=T)
+             # is data name on the search path?
+             dataName <- deparse(substitute(data))
+             
+             # will throw the error if data is not on search path 
+             get(dataName,inherits=T)  
+             
+             # otherwise, user probably intends that this particular variable
+             # is outside the stated data, so look for it:
+             possibleVar <- get(varName,inherits=T)
+             
+             # the following is a bit of a hack, but here goes:
+             # sometimes the name coincides with one of R's base functions.
+             # Perhaps then the user has the variable in the Globabl Environment.
+             # Look for it there:
+             if (is.function(possibleVar)) {
+               possibleVar <- get(varName,inherits=T,envir = globalenv())
+             }
+             possibleVar
            }
   )
   

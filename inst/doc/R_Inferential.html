@@ -116,8 +116,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ttestGC</span>(~fastest,<span class="dt">data=</span>m111survey,<span class="dt">mu=</span><span class="dv">100</span>,
           <span class="dt">alternative=</span><span class="st">&quot;two.sided&quot;</span>)</code></pre>
 <p>If the single numerical variable of interest is a difference of two numerical variables, then you are probably interested in the “paired” t-test:</p>
-<p><span class="math">\[ttestGC(secondVar - firstVar, data=MyData,mu=0).\]</span></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ttestGC</span>(height -<span class="st"> </span>ideal_ht,<span class="dt">data=</span>m111survey,
+<p><span class="math">\[ttestGC(\sim secondVar - firstVar, data=MyData,mu=0).\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ttestGC</span>(~height -<span class="st"> </span>ideal_ht,<span class="dt">data=</span>m111survey,
           <span class="dt">mu=</span><span class="dv">0</span>,
           <span class="dt">alternative=</span><span class="st">&quot;two.sided&quot;</span>)</code></pre>
 </div>
@@ -132,7 +132,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="two-numerical-variables" class="section level1">
 <h1>Two Numerical Variables</h1>
-<p>This topic is not provide for in the <code>tigerstats</code> package, but if you encounter this situation you will want to learn about <code>lm()</code>, the “grown-up” version of <code>lmGC()</code>.</p>
+<p>This topic is not extensively provided for in the <code>tigerstats</code> package, but if you encounter this situation you will want to learn about <code>lm()</code>, the “grown-up” version of <code>lmGC()</code>.</p>
 </div>
 
 

@@ -28,7 +28,7 @@ library(tigerstats)
 #            alternative="two.sided")
 
 ## ----eval=FALSE----------------------------------------------------------
-#  ttestGC(height - ideal_ht,data=m111survey,
+#  ttestGC(~height - ideal_ht,data=m111survey,
 #            mu=0,
 #            alternative="two.sided")
 

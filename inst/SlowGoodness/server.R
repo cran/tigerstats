@@ -3,7 +3,7 @@ library(shiny)
 source("chisqGraph.R")
 
 # Define server logic for SlowGoodness
-shinyServer(function(input, output) {
+shinyServer(function(input, output,session) {
   simLimit <- 10000
 
   #Keep track of number of simulations in a given "set-up"
@@ -15,9 +15,11 @@ shinyServer(function(input, output) {
   #we also want the ability to refresh the "set-up
   total <- 0 #total number of sims over all set-ups including current one
   totalPrev <- 0 #total number of sims over all set-ups excluding current one
-  
+
+    
   nullsInput <- reactive({
     probs <- as.numeric(unlist(strsplit(input$nulls,split=",")))
+    probs
   })
   
   obsInput <- reactive({
@@ -34,8 +36,10 @@ shinyServer(function(input, output) {
     nulls <- nullsInput()
     goodNulls <- TRUE
     if (length(nulls) <= 1) goodNulls <- FALSE
-    if (any(is.na(nulls))) goodNulls <- FALSE
-    if (any(nulls <= 0)) goodNulls <- FALSE
+    anyMissing <- any(is.na(nulls))
+    if (anyMissing) goodNulls <- FALSE
+    if (!anyMissing && any(nulls <= 0)) goodNulls <- FALSE
+    if (!goodNulls) disable("resample")
     goodNulls     
   })
   
@@ -45,6 +49,7 @@ shinyServer(function(input, output) {
     if (length(obs) <= 1) goodObs <- FALSE
     if (any(is.na(obs))) goodObs <- FALSE
     if (any(obs < 0)) goodObs <- FALSE
+    if (!goodObs) disable("resample")
     goodObs     
   })
   
@@ -53,8 +58,14 @@ shinyServer(function(input, output) {
     goodNames <- TRUE
     if (length(names) <= 1) goodNames <- FALSE
     if (any(is.na(names))) goodNames <- FALSE
+    if (!goodNames) disable("resample")
     goodNames     
   })
+  
+#   goodInput <- reactive({
+#     goodNulls() && goodObs() && goodNames()
+#   })
+
   
   obschisqInput <- reactive({
     nulls <- nullsInput()/sum(nullsInput())
@@ -76,6 +87,13 @@ shinyServer(function(input, output) {
       numberSims <<- numberSims + reps
       total <<- total+reps
       
+
+      hide(id="setup",anim=T,animType="slide")
+      
+      if (total - totalPrev == 1) {
+        updateTabsetPanel(session,"myPanel",selected="Latest Simulation")
+      }
+      
       #now build fake list of outcomes for each trial, on the last sim
       varLevels <- isolate(namesInput())
       namesList <- rep(varLevels,times=latestSim)
@@ -92,8 +110,12 @@ shinyServer(function(input, output) {
     numberSims <<- 0
     chisqSims <<- numeric()
     latestSim <<- NULL
+    
+    show(id="setup",anim=T,animType="slide")
+    
     return(totalPrev)
   })
+  
 
   
   dfInput <- reactive({
@@ -119,30 +141,37 @@ shinyServer(function(input, output) {
     total
   })
   
+  
   # needed for the conditional panels to work
   outputOptions(output, 'total', suspendWhenHidden=FALSE)
   
   output$barGraphInitial <- renderPlot({
+    
+    if (goodNulls()) enable("resample") else disable("resample")
     validate(
       need(goodNulls(),"Enter at least two null probabilities.  They should all be positive numbers.")
       )
+    if (goodObs()) enable("resample") else disable("resample")
     validate(
       need(goodObs(),"Enter at least two counts.  All counts should be non-negative integers.")
       )
+    if (goodNames()) enable("resample") else disable("resample")
     validate(
       need(goodNames(),"Enter a name for each possible outcome being tallied.")
       )
-    
+      
     observed <- obsInput()
     nulls <- nullsInput()/sum(nullsInput())
     names <- namesInput()
     
     lengthCheck <- (length(nulls) == length(observed)) && (length(observed)==length(names))
-    
+    if (lengthCheck) enable("resample") else disable("resample")
     validate(
       need(lengthCheck,
         "Make sure that you enter the same number of null probabilities, counts and names.")
       )
+    
+
     
     observed <- obsInput()
     expected <- nulls*sum(observed)
@@ -232,20 +261,40 @@ shinyServer(function(input, output) {
     
   })
   
-  output$densityplot <-
-    renderPlot({
+  chisqDensities <- reactive({
     input$resample
     if (length(chisqSims)==1) band <- 1 else band <- "nrd0"
-    dchisq <- density(chisqSims,n=500,from=0,to=xmaxInput(),bw=band)
-    plot(dchisq$x,dchisq$y,type="l",col="blue",
-         xlab="Chi-Square Value",ylab="Estimated Density",
-         main="Distribution of Resampled Chi-Square Statistics")
-    rug(chisqSims)
-    latest <- chisqSims[length(chisqSims)]
-    points(latest,0,col="blue",pch=19)
-    abline(v=isolate(obschisqInput()))
-    
+    density(chisqSims,n=500,from=0,to=xmaxInput(),bw=band)
+  })
+  
+  
+  output$densityplot <-
+    renderPlot({
+      input$resample
+      dchisq <- chisqDensities()
+      plot(dchisq$x,dchisq$y,type="l",col="blue",
+           xlab="Chi-Square Value",ylab="Estimated Density",
+           main="Distribution of Resampled Chi-Square Statistics")
+      if (length(chisqSims) <= 200) rug(chisqSims)
+      latest <- chisqSims[length(chisqSims)]
+      points(latest,0,col="blue",pch=19)
+      abline(v=isolate(obschisqInput()))
     })
+  
+#   output$densityplot <-
+#     renderPlot({
+#     input$resample
+#     if (length(chisqSims)==1) band <- 1 else band <- "nrd0"
+#     dchisq <- density(chisqSims,n=500,from=0,to=xmaxInput(),bw=band)
+#     plot(dchisq$x,dchisq$y,type="l",col="blue",
+#          xlab="Chi-Square Value",ylab="Estimated Density",
+#          main="Distribution of Resampled Chi-Square Statistics")
+#     if (length(chisqSims) <= 200) rug(chisqSims)
+#     latest <- chisqSims[length(chisqSims)]
+#     points(latest,0,col="blue",pch=19)
+#     abline(v=isolate(obschisqInput()))
+#     
+#     })
   
   output$summary1 <- renderTable({
     input$resample
@@ -302,6 +351,9 @@ shinyServer(function(input, output) {
       chisqGraph(bound=obs,region="above",df=degFreedom,xlab="Chi-Square Values",
                  graph=TRUE)
     abline(v=obs)
+    if (input$compareDen) {
+      lines(chisqDensities(),col="blue",lwd=4)
+    }
   })
   
   output$remarksProb <- renderText({

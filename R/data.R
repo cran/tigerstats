@@ -198,7 +198,7 @@ NA
 #' 
 #' @source Michael J. Radelet:  "Racial Characteristics and 
 #' the Imposition of the Death Penalty", \emph{American Sociological Review}, 46 (1981).
-#' See also the JSTOR location:  \url{http://goo.gl/ECLVa}.
+#' See also the JSTOR location:  \url{http://www.jstor.org/stable/2095088}.
 #' @keywords datasets
 
 
@@ -845,7 +845,6 @@ NA
 #' \itemize{
 #' \item{\code{sex}} {a factor with levels \code{Female} \code{Male}}
 #' \item{\code{year}} {class rank of subject}
-#' \item{\code{computer}} {a numeric vector}
 #' \item{\code{type}} {type of music subject listened to while reading}
 #' \item{\code{score}} {number of questions correct on reading comprehension test}
 #' }

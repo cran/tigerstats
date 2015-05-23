@@ -1,8 +1,8 @@
-## ----message=FALSE-------------------------------------------------------
+## ----, message=FALSE-----------------------------------------------------
 require(mosaic)
 require(tigerstats)
 
-## ----eval=FALSE----------------------------------------------------------
+## ----, eval=FALSE--------------------------------------------------------
 #  data(m111survey)
 #  View(m111survey)
 #  help(m111survey)
@@ -11,17 +11,14 @@ require(tigerstats)
 str(m111survey)
 
 ## ------------------------------------------------------------------------
-favstats(~fastest,data=m111survey)
+favstats(~fastest, data = m111survey)
 
 ## ------------------------------------------------------------------------
-favstats(fastest~sex,data=m111survey)
+favstats(fastest~sex, data = m111survey)
 
 ## ------------------------------------------------------------------------
-favstats(fastest,data=m111survey)[c("mean","sd")]
+favstats(~fastest, data=m111survey)[c("mean","sd")]
 
 ## ------------------------------------------------------------------------
-favstats(fastest~sex,data=m111survey)[c(".group","mean","sd")]
-
-## ----eval=FALSE----------------------------------------------------------
-#  favstats(~sex,data=m111survey)
+favstats(fastest~sex, data = m111survey)[c("sex","mean","sd")]
 
