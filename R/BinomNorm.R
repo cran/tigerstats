@@ -14,8 +14,8 @@
 BinomNorm <- function()  {
   #Normal approx to binomial.  Can vary n, but x-axis scale will change.
   
-  if (!("manipulate"  %in% .packages())) {
-    return(cat(paste0("You must be on R Studio with package manipulate attached\n",
+  if (!("manipulate"  %in% installed.packages())) {
+    return(cat(paste0("You must be on R Studio with package manipulate installed\n",
                       "in order to run this function.")))
   }
   
@@ -46,7 +46,4 @@ BinomNorm <- function()  {
   )
 }
 
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("manipulate",
-    "slider",
-    "checkbox",
-    "n","p","x"))
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("n","p","x"))

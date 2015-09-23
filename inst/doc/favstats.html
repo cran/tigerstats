@@ -143,8 +143,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1>Warning</h1>
 <p><code>favstats()</code> specializes in numerical variables: it does not like being used to study a factor variable by itself. Look what happens if you try to use it to study the factor variable <strong>sex</strong>:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(~sex, <span class="dt">data =</span> m111survey)</code></pre>
-<pre><code>## Warning in (function (x, ..., na.rm = TRUE) : Auto-converting factor to
-## numeric.</code></pre>
+<pre><code>## Warning in FUN(eval(formula[[2]], data, .envir), ...): Auto-converting
+## factor to numeric.</code></pre>
 <pre><code>##  min Q1 median Q3 max    mean        sd  n missing
 ##    1  1      1  2   2 1.43662 0.4994967 71       0</code></pre>
 <p><code>favstats()</code> converted the factor variable to a numeric variable and tried to give you some useful information based on that conversion, but elements of the output (especially the mean and the standard deviation) are meaningless in the context of factor variables. In order to study a factor variable you really should look instead at functions like <code>xtabs()</code>.</p>
