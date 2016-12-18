@@ -1,9 +1,9 @@
 Package: tigerstats
 Type: Package
 Title: R Functions for Elementary Statistics
-Version: 0.2.7
-Date: 2015-09-21
-Author: Rebekah Robinson <rrobinson20@humana.com> and Homer
+Version: 0.3
+Date: 2016-12-16
+Author: Rebekah Robinson <rebekahrobinson14@gmail.com> and Homer
     White <hwhite0@georgetowncollege.edu>
 Maintainer: Homer White <hwhite0@georgetowncollege.edu>
 Description: A collection of data sets and functions that are useful in the
@@ -17,13 +17,13 @@ Description: A collection of data sets and functions that are useful in the
     package 'mosaic', 'mosaicData' and 'abd', which are therefore listed as
     dependencies.
 License: GPL (>= 3)
-Depends: R(>= 2.10), abd, mosaic, mosaicData
+Depends: R(>= 3.0), abd, mosaic, mosaicData
 Imports: ggplot2, lattice, manipulate, MASS, methods
 Suggests: knitr, shiny, shinyjs
 LazyLoad: yes
 LazyData: true
-VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2015-09-23 01:44:59 UTC; homer
+Packaged: 2016-12-17 05:08:41 UTC; homer
+RoxygenNote: 5.0.1
 Repository: CRAN
-Date/Publication: 2015-09-23 08:05:13
+Date/Publication: 2016-12-18 16:56:04

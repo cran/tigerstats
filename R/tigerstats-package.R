@@ -7,12 +7,12 @@
 #' @aliases tigerstats tigerstats-package
 #' @docType package
 #' @title R Functions for Elementary Statistics
-#' @author Rebekah Robinson (\email{rrobinson20@@humana.com}), Homer White (\email{hwhite0@@georgetowncollege.edu})
+#' @author Rebekah Robinson (\email{rebekahrobinson14@gmail.com}), Homer White (\email{hwhite0@@georgetowncollege.edu})
 #' @references
 #' \url{http://statistics.georgetowncollege.edu}
 #'
 #' @keywords package
-#' @import abd mosaicData
+#' @import mosaicData abd
 #' @importFrom mosaic favstats
 #' @importFrom manipulate button checkbox picker slider manipulate
 #' @importFrom MASS mvrnorm
