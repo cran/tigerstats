@@ -4,12 +4,14 @@
 \name{labels}
 \alias{labels}
 \title{Labels and Perception of Quality}
-\format{A data frame with 30 observations on the following 3 variables.
+\format{
+A data frame with 30 observations on the following 3 variables.
 \describe{
 \item{jiffrating}{rating subject gave to the PB in the jar with the Jiff label}
 \item{greatvaluerating}{rating subject gave to the PB in the jar with the Great Value label}
 \item{sex}{a factor with levels \code{female} \code{male}}
-}}
+}
+}
 \source{
 MAT 111 at Georgetown College
 }
@@ -22,4 +24,3 @@ Unknown to the subjects, both jars contained Great Value peanut butter.
 Each subject rated the quality of the peanut butter on a scale of 1 to 10.
 }
 \keyword{datasets}
-

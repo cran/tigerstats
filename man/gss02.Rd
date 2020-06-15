@@ -4,7 +4,8 @@
 \name{gss02}
 \alias{gss02}
 \title{General Social Survey, 2002}
-\format{A data frame with 2765 observations on the following 13 variables.
+\format{
+A data frame with 2765 observations on the following 13 variables.
 \describe{
 \item{sex}{a factor with levels \code{Female}
 \code{Male}}
@@ -33,10 +34,11 @@ gunlaws.}
 \item{age}{age of the subject}
 \item{chldidel}{the ideal number of children the subject would like to have.}
 \item{emailtime}{estimated number of hours per week subject spends using email.}
-}}
+}
+}
 \source{
 National Opinion Research Center:  \url{http://www3.norc.org/gss+website/}.  
-Found in Uts and Heckard: Mind on Statistics, 4th Edition.
+Found in Uts and Heckard: Mind on Statistics, Fourth Edition.
 }
 \description{
 The General Social Survey (GSS) is a nationwide poll that has been conducted
@@ -44,4 +46,3 @@ since 1972 (semiannually since 1994).  Most interviews are done
 face-to-face.  For further information, see below.
 }
 \keyword{datasets}
-

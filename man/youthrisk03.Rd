@@ -4,9 +4,11 @@
 \name{youthrisk03}
 \alias{youthrisk03}
 \title{Youth Risk 2003}
-\format{A data frame with 3042 observations on 7 variables.}
+\format{
+A data frame with 3042 observations on 7 variables.
+}
 \source{
-Mind on Statistics, 4th Edition, by Uts and Heckard.
+Mind on Statistics, Fourth Edition, by Uts and Heckard.
 }
 \description{
 A Study of Risky Behaviors in High School Seniors, from year 2003.
@@ -22,4 +24,3 @@ A Study of Risky Behaviors in High School Seniors, from year 2003.
 }
 }
 \keyword{datasets}
-

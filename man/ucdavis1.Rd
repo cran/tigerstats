@@ -4,9 +4,11 @@
 \name{ucdavis1}
 \alias{ucdavis1}
 \title{UC Davis #1}
-\format{A data frame with 173 observations on 12 variables..}
+\format{
+A data frame with 173 observations on 12 variables..
+}
 \source{
-Mind on Statistics, 4th edition, Uts and Heckard.
+Mind on Statistics, Fourth Edition, Uts and Heckard.
 }
 \description{
 Results of a survey of students at UC-Davis.
@@ -29,4 +31,3 @@ not}
 }
 }
 \keyword{datasets}
-

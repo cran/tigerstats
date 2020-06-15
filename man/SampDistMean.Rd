@@ -20,7 +20,7 @@ Graphical and numerical output.
 An app to explore the Central Limit Theorem.
 }
 \note{
-Uses \code{manipulate} in RStudio.
+Uses \code{manipulate} in R Studio.
 }
 \examples{
 \dontrun{
@@ -31,4 +31,3 @@ if (require(manipulate)) SampDistMean(imagpop)
 \author{
 Homer White \email{hwhite0@georgetowncollege.edu}
 }
-

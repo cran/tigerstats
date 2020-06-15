@@ -2,7 +2,7 @@
 % Please edit documentation in R/Skewer.R
 \name{Skewer}
 \alias{Skewer}
-\title{SkewR}
+\title{Skewness and Box Plots}
 \usage{
 Skewer()
 }
@@ -23,4 +23,3 @@ if (require(mainpulate)) Skewer()
 \author{
 Homer White \email{hwhite0@georgetowncollege.edu}
 }
-

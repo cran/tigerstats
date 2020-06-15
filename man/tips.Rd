@@ -4,7 +4,9 @@
 \name{tips}
 \alias{tips}
 \title{Restaurant Tips}
-\format{A data frame with 244 rows and 8 variables}
+\format{
+A data frame with 244 rows and 8 variables
+}
 \source{
 Bryant, P. G. and Smith, M. A.(1995), Practical Data Analysis: Case
 Found in Interactive and Dynamic Graphics for Data Analysis: 
@@ -27,4 +29,3 @@ information about the customers who gave the tips.  The variables are as follows
 }
 }
 \keyword{datasets}
-

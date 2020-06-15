@@ -12,7 +12,7 @@
 \item{\ldots}{ignored}
 }
 \value{
-two diagmostic plots
+two diagnostic plots
 }
 \description{
 Used by generic plot function
@@ -24,4 +24,3 @@ plot(mpgModel)
 \author{
 Homer White \email{hwhite0@georgetowncollege.edu}
 }
-

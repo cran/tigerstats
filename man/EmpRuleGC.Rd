@@ -21,7 +21,7 @@ An app to facilitate visual understanding of Empirical Rule approximations
 of probabilities, percentages.
 }
 \note{
-Uses \code{manipulate} in RStudio
+Uses \code{manipulate} in R Studio
 }
 \examples{
 \dontrun{
@@ -31,4 +31,3 @@ if(require(manipulate)) EmpRuleGC(mean=70,sd=3,xlab="Height (inches)")
 \author{
 Homer White \email{hwhite0@georgetowncollege.edu}
 }
-

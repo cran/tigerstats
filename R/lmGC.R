@@ -8,7 +8,7 @@
 #' @param form formula of form y~x, both variables numeric
 #' @param data dataframe supplying y and x above.  If one or more of the variables is not in data, then
 #' they will be searched for in the parent environment.
-#' @param graph Produce scatterplot with fitted ploynomial, together with prediction standard error bands
+#' @param graph Produce scatterplot with fitted polynomial, together with prediction standard error bands
 #' @param check Asks to produce a lowess or gam curve with approximate 95%-confidence band.  If the
 #' fitted line wanders outside the band, then perhaps a linear fit is not appropriate.
 #' @return A list of class "GClm".  Elements that may be queried include "slope", "intercept",
@@ -71,7 +71,7 @@ lmGC <-function(form,data=parent.frame(),graph=FALSE,check=FALSE)  {
 #' \S3method{plot}{GClm}(x,...)
 #' @param x An object of class GClm
 #' @param \ldots ignored
-#' @return two diagmostic plots
+#' @return two diagnostic plots
 #' @export
 #' @author Homer White \email{hwhite0@@georgetowncollege.edu}
 #' @examples
@@ -144,7 +144,11 @@ predict.GClm <-function(object,x,level=NULL,...)  {
   
   if (!is.null(level)) {
     
-    prediction2 <- suppressWarnings(predict(model,newdata=newdf,interval="prediction",level=level))
+    prediction2 <- suppressWarnings(
+      predict(model,newdata=newdf,
+              interval="prediction",
+              level=level)
+      )
     lower <- prediction2[2]
     upper <- prediction2[3]
     cat(paste0(100*level,"%-prediction interval:\n"))
@@ -219,7 +223,8 @@ print.GClm <-function(x,...)  {
     title <- paste0("Checking the Model Fit\n(Model is blue; ",method,
                     " curve is red;\n95%-confidence band for curve included)")
     
-    p1 <- ggplot2::ggplot(df, ggplot2::aes_string(x=expname,y=respname))+
+    p1 <- ggplot2::ggplot(df, 
+                          ggplot2::aes(x=as.symbol(expname),y=as.symbol(respname)))+
       ggplot2::ggtitle(title)+
       ggplot2::geom_point()+
       ggplot2::stat_smooth(method = "lm", size = 1,se=FALSE)+

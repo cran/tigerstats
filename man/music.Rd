@@ -4,7 +4,9 @@
 \name{music}
 \alias{music}
 \title{Music and Reading Comprehension}
-\format{A data frame with 44 observations on 4 variables.}
+\format{
+A data frame with 44 observations on 4 variables.
+}
 \source{
 Matt Doolin, MAT 111 at Georgetown College
 }
@@ -21,4 +23,3 @@ heard each three different genres of music.  Each subject took a reading compreh
 }
 }
 \keyword{datasets}
-

@@ -21,7 +21,7 @@ Graphical and numerical output.
 An app to explore the Central Limit Theorem in the context of the difference of sample means.
 }
 \note{
-Uses \code{manipulate} in RStudio.  Also requires package \code{lattice}.
+Uses \code{manipulate} in R Studio.  Also requires package \code{lattice}.
 }
 \examples{
 \dontrun{
@@ -32,4 +32,3 @@ if (require(manipulate)) SampDist2Means(imagpop)
 \author{
 Homer White \email{hwhite0@georgetowncollege.edu}
 }
-

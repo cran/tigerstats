@@ -4,7 +4,8 @@
 \name{pennstate1}
 \alias{pennstate1}
 \title{Penn State #1}
-\format{A data frame with 190 observations on the following 9 variables.
+\format{
+A data frame with 190 observations on the following 9 variables.
 \describe{
 \item{Sex}{a factor with levels \code{F} \code{M}}
 \item{HrsSleep}{how many hours of sleep the subject gets per night}
@@ -24,12 +25,12 @@ hand, in centimeters.}
 \code{SorQ}.  The order of presentation of the S and Q options to the
 subject varied from one survey form to another.  This variable indicates
 which letter was presented first on the form.}
-}}
+}
+}
 \source{
-Uts and Heckard, Mind on Statistics, 4th Edition.
+Uts and Heckard, Mind on Statistics, Fourth Edition.
 }
 \description{
 A study of students at Penn State University.
 }
 \keyword{datasets}
-
